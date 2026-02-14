@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI4 Andhra Police - Posters</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{overflow-y:scroll}
+        body{background:#001f3f;font-family:'Segoe UI',system-ui,sans-serif;color:#fff}
+
+        .pages{
+            width:100%;max-width:960px;margin:20px auto 40px;
+            padding-left:12px;padding-right:12px;
+            display:flex;flex-direction:column;gap:12px
+        }
+        .page{
+            width:100%;position:relative;background:#002a54;border-radius:6px;
+            overflow:hidden;line-height:0
+        }
+        .page img{width:100%;height:auto;display:block;object-fit:contain}
+
+        /* ===== Header ===== */
+        .header{
+            position:sticky;top:0;z-index:100;
+            background:#001f3f;
+            border-bottom:1px solid rgba(255,255,255,.1);
+            padding:10px 24px;
+            display:flex;align-items:center;justify-content:center;gap:12px
+        }
+        .header img{height:44px;width:auto}
+        .header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
+
+        /* ===== Footer ===== */
+        .footer{
+            background:#fff;
+            border-top:1px solid rgba(0,0,0,.1);
+            padding:16px 24px;
+            display:flex;align-items:center;justify-content:center;gap:10px
+        }
+        .footer span{font-size:13px;color:#555}
+        .footer img{height:36px;width:auto}
+
+        #top-btn{
+            position:fixed;bottom:20px;right:20px;width:44px;height:44px;
+            border-radius:50%;background:#4fc3f7;border:none;color:#000;
+            font-size:20px;font-weight:bold;cursor:pointer;opacity:0;
+            transition:opacity .3s;z-index:100
+        }
+        #top-btn.show{opacity:1}
+
+        /* ===== Popup Overlay ===== */
+        .popup-overlay{
+            position:fixed;inset:0;
+            background:rgba(0,0,0,.6);
+            backdrop-filter:blur(6px);
+            z-index:200;
+            display:flex;align-items:center;justify-content:center;
+            opacity:0;pointer-events:none;
+            transition:opacity .35s ease
+        }
+        .popup-overlay.active{opacity:1;pointer-events:auto}
+
+        .popup{
+            background:#002a54;
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:12px;
+            padding:32px 28px;
+            width:90%;max-width:420px;
+            position:relative;
+            transform:translateY(20px) scale(.96);
+            transition:transform .35s ease;
+        }
+        .popup-overlay.active .popup{transform:translateY(0) scale(1)}
+
+        .popup-close{
+            position:absolute;top:12px;right:14px;
+            background:none;border:none;color:#888;
+            font-size:22px;cursor:pointer;line-height:1;
+            transition:color .2s
+        }
+        .popup-close:hover{color:#fff}
+
+        .popup h2{
+            font-size:20px;font-weight:700;
+            margin-bottom:4px
+        }
+        .popup p{
+            font-size:13px;color:#888;
+            margin-bottom:20px
+        }
+
+        .popup label{
+            display:block;font-size:12px;color:#aaa;
+            margin-bottom:4px;margin-top:14px
+        }
+        .popup label:first-of-type{margin-top:0}
+
+        .popup input,
+        .popup textarea{
+            width:100%;padding:10px 12px;
+            border:1px solid rgba(255,255,255,.12);
+            border-radius:6px;
+            background:rgba(255,255,255,.06);
+            color:#fff;font-size:14px;
+            font-family:inherit;outline:none;
+            transition:border-color .2s
+        }
+        .popup input:focus,
+        .popup textarea:focus{border-color:#4fc3f7}
+
+        .popup textarea{resize:vertical;min-height:80px}
+
+        .popup .send-btn{
+            margin-top:20px;width:100%;padding:12px;
+            border:none;border-radius:6px;
+            background:#4fc3f7;color:#000;
+            font-size:15px;font-weight:700;
+            cursor:pointer;transition:background .2s
+        }
+        .popup .send-btn:hover{background:#81d4fa}
+
+        /* Desktop large */
+        @media(min-width:1200px){
+            .pages{max-width:1100px;gap:16px;padding:0 24px}
+        }
+        /* Tablet */
+        @media(max-width:768px){
+            .pages{max-width:100%;padding:0 8px;gap:10px;margin:12px auto 30px}
+            .page{border-radius:4px}
+        }
+        /* Mobile */
+        @media(max-width:480px){
+            .pages{padding:0 4px;gap:6px;margin:8px auto 20px}
+            .page{border-radius:2px}
+            .header{padding:8px 12px;gap:8px}
+            .header img{height:34px}
+            .header h1{font-size:14px}
+            .footer{padding:12px 12px;gap:8px}
+            .footer span{font-size:11px}
+            .footer img{height:28px}
+            .popup{padding:20px 16px;width:95%;border-radius:8px}
+            .popup h2{font-size:17px}
+            .popup p{font-size:12px;margin-bottom:14px}
+            .popup input{padding:8px 10px;font-size:13px}
+            .popup .send-btn{padding:10px;font-size:14px}
+            #top-btn{width:38px;height:38px;font-size:16px;bottom:14px;right:14px}
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <img src="ai4ap.png" alt="AI4AP Logo" />
+    <h1>AI4AP POLICE</h1>
+</header>
+
+<div class="pages" id="pages">
+    <div class="page" id="page-0">
+
+            <img src="Poster_SVG/first_page.jpeg" loading="lazy" decoding="async" alt="Page 1" />
+        </div>
+        <div class="page" id="page-1">
+
+            <img src="Poster_SVG/CORE SERVICES.svg" loading="lazy" decoding="async" alt="Page 1" />
+        </div>
+        <div class="page" id="page-2">
+
+            <img src="Poster_SVG/Main_Cover.png" loading="lazy" decoding="async" alt="Page 2" />
+        </div>
+        <div class="page" id="page-3">
+
+            <img src="Poster_SVG/UC1-Poster.svg" loading="lazy" decoding="async" alt="Page 3" />
+        </div>
+        <div class="page" id="page-4">
+
+            <img src="Poster_SVG/UC2-Poster.svg" loading="lazy" decoding="async" alt="Page 4" />
+        </div>
+        <div class="page" id="page-5">
+
+            <img src="Poster_SVG/UC3-Poster.svg" loading="lazy" decoding="async" alt="Page 5" />
+        </div>
+        <div class="page" id="page-6">
+
+            <img src="Poster_SVG/UC4-Poster.svg" loading="lazy" decoding="async" alt="Page 6" />
+        </div>
+        <div class="page" id="page-7">
+
+            <img src="Poster_SVG/UC5-Poster.svg" loading="lazy" decoding="async" alt="Page 7" />
+        </div>
+        <div class="page" id="page-8">
+
+            <img src="Poster_SVG/UC6-Poster.svg" loading="lazy" decoding="async" alt="Page 8" />
+        </div>
+        <div class="page" id="page-9">
+
+            <img src="Poster_SVG/UC7-Poster.svg" loading="lazy" decoding="async" alt="Page 9" />
+        </div>
+        <div class="page" id="page-10">
+
+            <img src="Poster_SVG/last_page.jpeg" loading="lazy" decoding="async" alt="Page 9" />
+        </div>
+</div>
+
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&uarr;</button>
+
+<!-- Contact Popup -->
+<div class="popup-overlay" id="popup-overlay">
+    <div class="popup">
+        <button class="popup-close" id="popup-close">&times;</button>
+        <h2>Help us to reach you</h2>
+        <p>Share your details and we'll get in touch with you.</p>
+
+        <label for="f-name">Name</label>
+        <input type="text" id="f-name" placeholder="Your name" />
+
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" placeholder="you@example.com" />
+
+        <label for="f-phone">Phone Number</label>
+        <input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX" />
+
+        <label for="f-linkedin">LinkedIn URL / Name</label>
+        <input type="text" id="f-linkedin" placeholder="linkedin.com/in/yourname or Your Name" />
+
+        <button class="send-btn" id="send-btn">Submit</button>
+        <div id="form-msg" style="margin-top:12px;font-size:13px;text-align:center;min-height:20px;"></div>
+    </div>
+</div>
+
+<script>
+// Scroll-to-top button
+const tb=document.getElementById('top-btn');
+window.addEventListener('scroll',()=>{tb.classList.toggle('show',scrollY>600)},{passive:true});
+
+// === Contact Popup: show once when user scrolls to page 3 ===
+const overlay=document.getElementById('popup-overlay');
+let popupShown=false;
+let userHasScrolled=false;
+
+window.addEventListener('scroll',function markScrolled(){
+    userHasScrolled=true;
+    window.removeEventListener('scroll',markScrolled);
+},{passive:true});
+
+if(!popupShown){
+    const page3Observer=new IntersectionObserver(entries=>{
+        for(const e of entries){
+            if(e.isIntersecting && !popupShown && userHasScrolled){
+                popupShown=true;
+
+                overlay.classList.add('active');
+                page3Observer.disconnect();
+            }
+        }
+    },{threshold:0.3});
+    page3Observer.observe(document.getElementById('page-2'));
+}
+
+// Close popup
+document.getElementById('popup-close').addEventListener('click',()=>{
+    overlay.classList.remove('active');
+});
+overlay.addEventListener('click',(e)=>{
+    if(e.target===overlay) overlay.classList.remove('active');
+});
+
+// Send button
+document.getElementById('send-btn').addEventListener('click',async()=>{
+    const name=document.getElementById('f-name').value.trim();
+    const email=document.getElementById('f-email').value.trim();
+    const phone=document.getElementById('f-phone').value.trim();
+    const linkedin=document.getElementById('f-linkedin').value.trim();
+    const msg=document.getElementById('form-msg');
+    const btn=document.getElementById('send-btn');
+
+    msg.textContent='';
+    msg.style.color='';
+
+    if(!name||!email||!phone||!linkedin){
+        msg.textContent='Please fill in all fields.';
+        msg.style.color='#ff6b6b';
+        return;
+    }
+
+    btn.disabled=true;
+    btn.textContent='Submitting...';
+
+    try{
+        const res=await fetch('/api/contact',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({name,email,phone,linkedin})
+        });
+        const data=await res.json();
+        if(data.success){
+            msg.textContent='Thank you, '+name+'! Your details have been saved.';
+            msg.style.color='#69f0ae';
+            setTimeout(()=>overlay.classList.remove('active'),2000);
+        }else{
+            msg.textContent=data.error||'Something went wrong.';
+            msg.style.color='#ff6b6b';
+        }
+    }catch(e){
+        msg.textContent='Network error. Please try again.';
+        msg.style.color='#ff6b6b';
+    }finally{
+        btn.disabled=false;
+        btn.textContent='Submit';
+    }
+});
+</script>
+</body>
+</html>
