@@ -26,10 +26,21 @@
             background:#001f3f;
             border-bottom:1px solid rgba(255,255,255,.1);
             padding:10px 24px;
-            display:flex;align-items:center;justify-content:center;gap:12px
+            display:flex;align-items:center;gap:12px
+        }
+        .header-center{
+            flex:1;display:flex;align-items:center;justify-content:center;gap:12px
         }
         .header img{height:44px;width:auto}
         .header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
+        .dl-btn{
+            padding:8px 16px;border-radius:6px;
+            background:#4fc3f7;color:#000;
+            font-size:13px;font-weight:700;text-decoration:none;
+            white-space:nowrap;
+            transition:background .2s
+        }
+        .dl-btn:hover{background:#81d4fa}
 
         /* ===== Footer ===== */
         .footer{
@@ -49,6 +60,16 @@
         }
         #top-btn.show{opacity:1}
 
+        #msg-btn{
+            position:fixed;bottom:20px;right:76px;width:50px;height:50px;
+            border-radius:50%;background:#4fc3f7;border:none;color:#000;
+            font-size:24px;cursor:pointer;z-index:100;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,.3);
+            transition:background .2s,transform .2s
+        }
+        #msg-btn:hover{background:#81d4fa;transform:scale(1.1)}
+
         /* ===== Popup Overlay ===== */
         .popup-overlay{
             position:fixed;inset:0;
@@ -67,6 +88,8 @@
             border-radius:12px;
             padding:32px 28px;
             width:90%;max-width:420px;
+            max-height:90vh;
+            overflow-y:auto;
             position:relative;
             transform:translateY(20px) scale(.96);
             transition:transform .35s ease;
@@ -74,12 +97,14 @@
         .popup-overlay.active .popup{transform:translateY(0) scale(1)}
 
         .popup-close{
-            position:absolute;top:12px;right:14px;
-            background:none;border:none;color:#888;
-            font-size:22px;cursor:pointer;line-height:1;
-            transition:color .2s
+            position:absolute;top:10px;right:12px;
+            background:rgba(255,255,255,.1);border:none;color:#fff;
+            width:32px;height:32px;border-radius:50%;
+            font-size:20px;cursor:pointer;line-height:1;
+            display:flex;align-items:center;justify-content:center;
+            transition:background .2s
         }
-        .popup-close:hover{color:#fff}
+        .popup-close:hover{background:rgba(255,75,75,.5)}
 
         .popup h2{
             font-size:20px;font-weight:700;
@@ -97,6 +122,7 @@
         .popup label:first-of-type{margin-top:0}
 
         .popup input,
+        .popup select,
         .popup textarea{
             width:100%;padding:10px 12px;
             border:1px solid rgba(255,255,255,.12);
@@ -107,9 +133,21 @@
             transition:border-color .2s
         }
         .popup input:focus,
+        .popup select:focus,
         .popup textarea:focus{border-color:#4fc3f7}
+        .popup input.input-error,
+        .popup select.input-error{border-color:#ff6b6b}
+
+        .popup select option{background:#002a54;color:#fff}
 
         .popup textarea{resize:vertical;min-height:80px}
+
+        .phone-row{display:flex;gap:8px;align-items:stretch}
+        .phone-row select{width:120px;flex-shrink:0}
+        .phone-row input{flex:1}
+
+        .required-star{color:#ff6b6b;margin-left:2px}
+        .field-error{font-size:11px;color:#ff6b6b;margin-top:2px;min-height:14px}
 
         .popup .send-btn{
             margin-top:20px;width:100%;padding:12px;
@@ -139,20 +177,25 @@
             .footer{padding:12px 12px;gap:8px}
             .footer span{font-size:11px}
             .footer img{height:28px}
-            .popup{padding:20px 16px;width:95%;border-radius:8px}
+            .popup{padding:20px 16px;width:95%;max-height:85vh;border-radius:8px}
             .popup h2{font-size:17px}
             .popup p{font-size:12px;margin-bottom:14px}
-            .popup input{padding:8px 10px;font-size:13px}
+            .popup input,.popup select,.popup textarea{padding:8px 10px;font-size:13px}
             .popup .send-btn{padding:10px;font-size:14px}
+            .phone-row select{width:100px}
             #top-btn{width:38px;height:38px;font-size:16px;bottom:14px;right:14px}
+            #msg-btn{width:42px;height:42px;font-size:20px;bottom:14px;right:62px}
         }
     </style>
 </head>
 <body>
 
 <header class="header">
-    <img src="ai4ap.png" alt="AI4AP Logo" />
-    <h1>AI4AP POLICE</h1>
+    <div class="header-center">
+        <img src="ai4ap.png" alt="AI4AP Logo" />
+        <h1>AI4AP POLICE</h1>
+    </div>
+    <a href="AI4AndhraPolice_Police_4SiteAI_Posters_Latest(110226).pdf" download class="dl-btn">Download</a>
 </header>
 
 <div class="pages" id="pages">
@@ -203,6 +246,7 @@
 </div>
 
 
+<button id="msg-btn" title="Contact Us">&#9993;</button>
 <button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&uarr;</button>
 
 <!-- Contact Popup -->
@@ -212,17 +256,48 @@
         <h2>Help us to reach you</h2>
         <p>Share your details and we'll get in touch with you.</p>
 
-        <label for="f-name">Name</label>
+        <label for="f-name">Name<span class="required-star">*</span></label>
         <input type="text" id="f-name" placeholder="Your name" />
+        <div class="field-error" id="err-name"></div>
 
-        <label for="f-email">Email</label>
+        <label for="f-email">Email<span class="required-star">*</span></label>
         <input type="email" id="f-email" placeholder="you@example.com" />
+        <div class="field-error" id="err-email"></div>
 
-        <label for="f-phone">Phone Number</label>
-        <input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX" />
+        <label>Phone Number<span class="required-star">*</span></label>
+        <div class="phone-row">
+            <select id="f-cc">
+                <option value="+91">+91 IN</option>
+                <option value="+1">+1 US</option>
+                <option value="+44">+44 UK</option>
+                <option value="+61">+61 AU</option>
+                <option value="+81">+81 JP</option>
+                <option value="+49">+49 DE</option>
+                <option value="+33">+33 FR</option>
+                <option value="+86">+86 CN</option>
+                <option value="+971">+971 UAE</option>
+                <option value="+65">+65 SG</option>
+                <option value="+966">+966 SA</option>
+                <option value="+974">+974 QA</option>
+                <option value="+60">+60 MY</option>
+                <option value="+82">+82 KR</option>
+                <option value="+39">+39 IT</option>
+                <option value="+34">+34 ES</option>
+                <option value="+55">+55 BR</option>
+                <option value="+27">+27 ZA</option>
+                <option value="+7">+7 RU</option>
+                <option value="+62">+62 ID</option>
+            </select>
+            <input type="tel" id="f-phone" placeholder="XXXXX XXXXX" />
+        </div>
+        <div class="field-error" id="err-phone"></div>
 
         <label for="f-linkedin">LinkedIn URL / Name</label>
         <input type="text" id="f-linkedin" placeholder="linkedin.com/in/yourname or Your Name" />
+        <div class="field-error" id="err-linkedin"></div>
+
+        <label for="f-message">Want to say something?</label>
+        <textarea id="f-message" placeholder="Write your message here..." rows="3"></textarea>
 
         <button class="send-btn" id="send-btn">Submit</button>
         <div id="form-msg" style="margin-top:12px;font-size:13px;text-align:center;min-height:20px;"></div>
@@ -258,6 +333,11 @@ if(!popupShown){
     page3Observer.observe(document.getElementById('page-2'));
 }
 
+// Message button opens popup
+document.getElementById('msg-btn').addEventListener('click',()=>{
+    overlay.classList.add('active');
+});
+
 // Close popup
 document.getElementById('popup-close').addEventListener('click',()=>{
     overlay.classList.remove('active');
@@ -266,23 +346,96 @@ overlay.addEventListener('click',(e)=>{
     if(e.target===overlay) overlay.classList.remove('active');
 });
 
+// Real-time field validation on blur
+const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function clearFieldErr(el,errId){
+    el.classList.remove('input-error');
+    document.getElementById(errId).textContent='';
+}
+function setFieldErr(el,errId,msg){
+    el.classList.add('input-error');
+    document.getElementById(errId).textContent=msg;
+}
+
+document.getElementById('f-name').addEventListener('blur',function(){
+    clearFieldErr(this,'err-name');
+    if(!this.value.trim()) setFieldErr(this,'err-name','Name is required.');
+});
+document.getElementById('f-name').addEventListener('input',function(){
+    if(this.value.trim()) clearFieldErr(this,'err-name');
+});
+
+document.getElementById('f-email').addEventListener('blur',function(){
+    clearFieldErr(this,'err-email');
+    const v=this.value.trim();
+    if(!v) setFieldErr(this,'err-email','Email is required.');
+    else if(!emailRegex.test(v)) setFieldErr(this,'err-email','Enter a valid email address.');
+});
+document.getElementById('f-email').addEventListener('input',function(){
+    const v=this.value.trim();
+    if(v && emailRegex.test(v)) clearFieldErr(this,'err-email');
+});
+
+document.getElementById('f-phone').addEventListener('blur',function(){
+    clearFieldErr(this,'err-phone');
+    const digits=this.value.trim().replace(/\D/g,'');
+    if(!this.value.trim()) setFieldErr(this,'err-phone','Phone number is required.');
+    else if(digits.length<7||digits.length>15) setFieldErr(this,'err-phone','Enter a valid phone number (7-15 digits).');
+});
+document.getElementById('f-phone').addEventListener('input',function(){
+    const digits=this.value.trim().replace(/\D/g,'');
+    if(digits.length>=7&&digits.length<=15) clearFieldErr(this,'err-phone');
+});
+
 // Send button
 document.getElementById('send-btn').addEventListener('click',async()=>{
-    const name=document.getElementById('f-name').value.trim();
-    const email=document.getElementById('f-email').value.trim();
-    const phone=document.getElementById('f-phone').value.trim();
-    const linkedin=document.getElementById('f-linkedin').value.trim();
+    const nameEl=document.getElementById('f-name');
+    const emailEl=document.getElementById('f-email');
+    const phoneEl=document.getElementById('f-phone');
+    const ccEl=document.getElementById('f-cc');
+    const linkedinEl=document.getElementById('f-linkedin');
     const msg=document.getElementById('form-msg');
     const btn=document.getElementById('send-btn');
 
-    msg.textContent='';
-    msg.style.color='';
+    const name=nameEl.value.trim();
+    const email=emailEl.value.trim();
+    const phoneRaw=phoneEl.value.trim().replace(/\s+/g,'');
+    const linkedin=linkedinEl.value.trim();
 
-    if(!name||!email||!phone||!linkedin){
-        msg.textContent='Please fill in all fields.';
-        msg.style.color='#ff6b6b';
-        return;
+    // Clear previous errors
+    msg.textContent='';msg.style.color='';
+    document.querySelectorAll('.field-error').forEach(e=>e.textContent='');
+    document.querySelectorAll('.input-error').forEach(e=>e.classList.remove('input-error'));
+
+    let valid=true;
+
+    if(!name){
+        document.getElementById('err-name').textContent='Name is required.';
+        nameEl.classList.add('input-error');valid=false;
     }
+
+    if(!email){
+        document.getElementById('err-email').textContent='Email is required.';
+        emailEl.classList.add('input-error');valid=false;
+    }else if(!emailRegex.test(email)){
+        document.getElementById('err-email').textContent='Enter a valid email address.';
+        emailEl.classList.add('input-error');valid=false;
+    }
+
+    const phoneDigits=phoneRaw.replace(/\D/g,'');
+    if(!phoneRaw){
+        document.getElementById('err-phone').textContent='Phone number is required.';
+        phoneEl.classList.add('input-error');valid=false;
+    }else if(phoneDigits.length<7||phoneDigits.length>15){
+        document.getElementById('err-phone').textContent='Enter a valid phone number (7-15 digits).';
+        phoneEl.classList.add('input-error');valid=false;
+    }
+
+    if(!valid) return;
+
+    const phone=ccEl.value+' '+phoneRaw;
+    const message=document.getElementById('f-message').value.trim();
 
     btn.disabled=true;
     btn.textContent='Submitting...';
@@ -291,7 +444,7 @@ document.getElementById('send-btn').addEventListener('click',async()=>{
         const res=await fetch('/api/contact',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({name,email,phone,linkedin})
+            body:JSON.stringify({name,email,phone,linkedin,message})
         });
         const data=await res.json();
         if(data.success){

@@ -1,4 +1,6 @@
 require('dotenv').config();
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
@@ -23,10 +25,10 @@ MongoClient.connect(MONGO_URL).then(client => {
 
 // POST /api/contact — insert form data
 app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, linkedin } = req.body;
+  const { name, email, phone, linkedin, message } = req.body;
 
-  if (!name || !email || !phone || !linkedin) {
-    return res.status(400).json({ error: 'All fields are required.' });
+  if (!name || !email || !phone) {
+    return res.status(400).json({ error: 'Name, email and phone are required.' });
   }
 
   try {
@@ -35,6 +37,7 @@ app.post('/api/contact', async (req, res) => {
       email,
       phone,
       linkedin,
+      message: message || '',
       createdAt: new Date(),
     });
     res.json({ success: true });
